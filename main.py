@@ -11,7 +11,8 @@ def main():
             tenant_1 = lines[0]
             tenant_2 = lines[1]
             rent = int(lines[2])
-            form = Form(tenant_1,tenant_2,rent)
+            unit_num = lines[3]
+            form = Form(tenant_1,tenant_2,rent,unit_num)
             form.all()
 
 if __name__ == "__main__":

@@ -3,10 +3,11 @@ import os
 from pypdf import PdfReader, PdfWriter
 
 class Form:
-    def __init__(self, tenant_1:str, tenant_2:str, rent:int):
+    def __init__(self, tenant_1:str, tenant_2:str, rent:int, unit_num:str):
         self.tenant_1 = tenant_1
         self.tenant_2 = tenant_2
         self.rent = rent
+        self.unit_num = unit_num
 
     def all(self):
         self.master()
@@ -34,6 +35,7 @@ class Form:
             writer.pages[0], 
             {"TenantsLessee":self.tenant_1,
             "TenantsLessee_2":self.tenant_2,
+            "Unit Number": self.unit_num,
             "Monthly Rental Rate":f"{self.rent:.2f}",
             "t": f"{self.rent:.2f}",
             "Late Charge": f"{round(self.rent*.06,2):.2f}",
@@ -75,6 +77,12 @@ class Form:
                 auto_regenerate=False
             )
 
+        writer.update_page_form_field_values(
+            writer.pages[0],
+            {"Rental Unit Address": f"4435 Arizona Street, #{self.unit_num}"},
+            auto_regenerate=False
+        )
+
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
 
         with open(output_pdf, "wb") as output_file:
@@ -105,6 +113,12 @@ class Form:
                 auto_regenerate=False
             )
 
+        writer.update_page_form_field_values(
+            writer.pages[0],
+            {"unit number": self.unit_num},
+            auto_regenerate=False
+        )
+
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
 
         with open(output_pdf, "wb") as output_file:
@@ -134,6 +148,11 @@ class Form:
                 {"Text3": f"{self.tenant_1}, {self.tenant_2}"},
                 auto_regenerate=False
             )
+        writer.update_page_form_field_values(
+            writer.pages[0],
+            {"Text5": self.unit_num},
+            auto_regenerate=False
+        )
 
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
 
@@ -165,6 +184,12 @@ class Form:
                 auto_regenerate=False
             )
 
+        writer.update_page_form_field_values(
+            writer.pages[0],
+            {"unit number": self.unit_num},
+            auto_regenerate=False
+        )
+
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
 
         with open(output_pdf, "wb") as output_file:
@@ -195,6 +220,12 @@ class Form:
                 auto_regenerate=False
             )
 
+        writer.update_page_form_field_values(
+            writer.pages[0],
+            {"CA": f"4435 Arizona Street, #{self.unit_num}, San Diego"},
+            auto_regenerate=False
+        )
+
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
 
         with open(output_pdf, "wb") as output_file:
@@ -216,6 +247,7 @@ class Form:
             writer.pages[0], 
             {"TENANT":self.tenant_1,
             "TENANT and":self.tenant_2,
+            "in the city of": self.unit_num
             },
             auto_regenerate=False
         )
@@ -249,6 +281,11 @@ class Form:
                 {"THIS AGREEMENT made and entered into between": f"{self.tenant_1}, {self.tenant_2}"},
                 auto_regenerate=False
             )
+        writer.update_page_form_field_values(
+            writer.pages[0],
+            {"undefined": self.unit_num},
+            auto_regenerate=False
+        )
 
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
 
