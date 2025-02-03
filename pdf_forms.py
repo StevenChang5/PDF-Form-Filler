@@ -3,11 +3,19 @@ import os
 from pypdf import PdfReader, PdfWriter
 
 class Form:
-    def __init__(self, tenant_1:str, tenant_2:str, rent:int, unit_num:str):
+    def __init__(self, tenant_1:str, tenant_2:str, rent:int, unit_num:str,
+                  address:str, city:str, state:str, zip:int, start:str,phone1:str, phone2:str):
         self.tenant_1 = tenant_1
         self.tenant_2 = tenant_2
         self.rent = rent
         self.unit_num = unit_num
+        self.address = address
+        self.city = city
+        self.state = state
+        self.zip = zip
+        self.start = start
+        self.phone1 = phone1
+        self.phone2 = phone2
 
     def all(self):
         self.master()
@@ -42,7 +50,20 @@ class Form:
             "First months rent of": f"{self.rent:.2f}",
             "total payment of 101":f"{self.rent*2:.2f}",
             "equaling amount": f"{round(self.rent*.06,2):.2f}",
-            "payment of": f"{self.rent:.2f}"
+            "payment of": f"{self.rent:.2f}",
+            "Unit Address": self.address,
+            "ty": self.city,
+            "State": self.state,
+            "p": self.zip,
+            "commence on": self.start
+            },
+            auto_regenerate=False
+        )
+        writer.update_page_form_field_values(
+            writer.pages[4],
+            {
+                "RESIDENTS Text Number": self.phone1,
+                "RESIDENTS Text Number_2": self.phone2
             },
             auto_regenerate=False
         )
@@ -79,7 +100,7 @@ class Form:
 
         writer.update_page_form_field_values(
             writer.pages[0],
-            {"Rental Unit Address": f"4435 Arizona Street, #{self.unit_num}"},
+            {"Rental Unit Address": f"{self.address}, #{self.unit_num}, {self.city}, {self.state} {self.zip}"},
             auto_regenerate=False
         )
 
@@ -115,7 +136,10 @@ class Form:
 
         writer.update_page_form_field_values(
             writer.pages[0],
-            {"unit number": self.unit_num},
+            {"unit number": self.unit_num,
+             "hereby known as OwnerAgent and": self.start,
+             "in the city of": self.address
+             },
             auto_regenerate=False
         )
 
@@ -150,7 +174,11 @@ class Form:
             )
         writer.update_page_form_field_values(
             writer.pages[0],
-            {"Text5": self.unit_num},
+            {"Text5": self.unit_num,
+             "Text1": self.start,
+             "Text4": self.address,
+             "Text6": self.city
+            },
             auto_regenerate=False
         )
 
@@ -186,7 +214,11 @@ class Form:
 
         writer.update_page_form_field_values(
             writer.pages[0],
-            {"unit number": self.unit_num},
+            {"unit number": self.unit_num,
+             "This agreement is an addendum and part of the rental agreement dated": self.start,
+             "hereby known as Residents for the premises located at": self.address,
+             "in the city of": self.city
+             },
             auto_regenerate=False
         )
 
@@ -222,7 +254,9 @@ class Form:
 
         writer.update_page_form_field_values(
             writer.pages[0],
-            {"CA": f"4435 Arizona Street, #{self.unit_num}, San Diego"},
+            {"CA": f"{self.address}, #{self.unit_num}, {self.city}",
+             "undefined": self.zip
+             },
             auto_regenerate=False
         )
 
@@ -247,7 +281,10 @@ class Form:
             writer.pages[0], 
             {"TENANT":self.tenant_1,
             "TENANT and":self.tenant_2,
-            "in the city of": self.unit_num
+            "in the city of": self.unit_num,
+            "for the premises located at": self.address,
+            "CA": self.city,
+            "Plumbing": self.start
             },
             auto_regenerate=False
         )
@@ -283,7 +320,11 @@ class Form:
             )
         writer.update_page_form_field_values(
             writer.pages[0],
-            {"undefined": self.unit_num},
+            {"undefined": self.unit_num,
+             "Rents the premises from OwnerAgent located at": self.address,
+             "Street Address": self.city,
+             "Unit if applicable": self.zip
+             },
             auto_regenerate=False
         )
 

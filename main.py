@@ -12,7 +12,15 @@ def main():
             tenant_2 = lines[1]
             rent = int(lines[2])
             unit_num = lines[3]
-            form = Form(tenant_1,tenant_2,rent,unit_num)
+            address = lines[4]
+            city = lines[5]
+            state = lines[6]
+            zip = lines[7]
+            start = lines[8]
+            phone1 = lines[9]
+            phone2 = lines[10]
+            form = Form(tenant_1,tenant_2,rent,unit_num,address,city,state,zip,
+                        start,phone1,phone2)
             form.all()
 
 if __name__ == "__main__":
