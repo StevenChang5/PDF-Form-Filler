@@ -1,6 +1,7 @@
 import csv
 import os
 from pypdf import PdfReader, PdfWriter
+from pypdf.generic import BooleanObject, NameObject, IndirectObject
 
 class Form:
     def __init__(self, tenant_1:str, tenant_2:str, rent:int, unit_num:str,
@@ -26,6 +27,7 @@ class Form:
         self.mold()
         self.plumbing()
         self.pest()
+
 
     def master(self):
         template_pdf = 'templates/LLC_Master_Rental_Agreement_TEMPLATE.pdf'
@@ -56,16 +58,14 @@ class Form:
             "State": self.state,
             "p": self.zip,
             "commence on": self.start
-            },
-            auto_regenerate=False
+            }
         )
         writer.update_page_form_field_values(
             writer.pages[4],
             {
                 "RESIDENTS Text Number": self.phone1,
                 "RESIDENTS Text Number_2": self.phone2
-            },
-            auto_regenerate=False
+            }
         )
 
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
@@ -88,20 +88,17 @@ class Form:
         if self.tenant_2 == '':
             writer.update_page_form_field_values(
                 writer.pages[0], 
-                {"Resident Names": self.tenant_1},
-                auto_regenerate=False
+                {"Resident Names": self.tenant_1}
             )
         else:
             writer.update_page_form_field_values(
                 writer.pages[0], 
-                {"Resident Names": f"{self.tenant_1}, {self.tenant_2}"},
-                auto_regenerate=False
+                {"Resident Names": f"{self.tenant_1}, {self.tenant_2}"}
             )
 
         writer.update_page_form_field_values(
             writer.pages[0],
-            {"Rental Unit Address": f"{self.address}, #{self.unit_num}, {self.city}, {self.state} {self.zip}"},
-            auto_regenerate=False
+            {"Rental Unit Address": f"{self.address}, #{self.unit_num}, {self.city}, {self.state} {self.zip}"}
         )
 
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
@@ -124,14 +121,12 @@ class Form:
         if self.tenant_2 == '':
             writer.update_page_form_field_values(
                 writer.pages[0], 
-                {"between 2": self.tenant_1},
-                auto_regenerate=False
+                {"between 2": self.tenant_1}
             )
         else:
             writer.update_page_form_field_values(
                 writer.pages[0], 
-                {"between 2": f"{self.tenant_1}, {self.tenant_2}"},
-                auto_regenerate=False
+                {"between 2": f"{self.tenant_1}, {self.tenant_2}"}
             )
 
         writer.update_page_form_field_values(
@@ -139,8 +134,7 @@ class Form:
             {"unit number": self.unit_num,
              "hereby known as OwnerAgent and": self.start,
              "in the city of": self.address
-             },
-            auto_regenerate=False
+             }
         )
 
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
@@ -163,14 +157,12 @@ class Form:
         if self.tenant_2 == '':
             writer.update_page_form_field_values(
                 writer.pages[0], 
-                {"Text3": self.tenant_1},
-                auto_regenerate=False
+                {"Text3": self.tenant_1}
             )
         else:
             writer.update_page_form_field_values(
                 writer.pages[0], 
-                {"Text3": f"{self.tenant_1}, {self.tenant_2}"},
-                auto_regenerate=False
+                {"Text3": f"{self.tenant_1}, {self.tenant_2}"}
             )
         writer.update_page_form_field_values(
             writer.pages[0],
@@ -178,8 +170,7 @@ class Form:
              "Text1": self.start,
              "Text4": self.address,
              "Text6": self.city
-            },
-            auto_regenerate=False
+            }
         )
 
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
@@ -202,14 +193,12 @@ class Form:
         if self.tenant_2 == '':
             writer.update_page_form_field_values(
                 writer.pages[0], 
-                {"hereby known as OwnerAgent and": self.tenant_1},
-                auto_regenerate=False
+                {"hereby known as OwnerAgent and": self.tenant_1}
             )
         else:
             writer.update_page_form_field_values(
                 writer.pages[0], 
-                {"hereby known as OwnerAgent and": f"{self.tenant_1}, {self.tenant_2}"},
-                auto_regenerate=False
+                {"hereby known as OwnerAgent and": f"{self.tenant_1}, {self.tenant_2}"}
             )
 
         writer.update_page_form_field_values(
@@ -218,8 +207,7 @@ class Form:
              "This agreement is an addendum and part of the rental agreement dated": self.start,
              "hereby known as Residents for the premises located at": self.address,
              "in the city of": self.city
-             },
-            auto_regenerate=False
+             }
         )
 
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
@@ -242,23 +230,21 @@ class Form:
         if self.tenant_2 == '':
             writer.update_page_form_field_values(
                 writer.pages[0], 
-                {"TENANTS for the premises located at": self.tenant_1},
-                auto_regenerate=False
+                {"TENANTS for the premises located at": self.tenant_1}
             )
         else:
             writer.update_page_form_field_values(
                 writer.pages[0], 
-                {"TENANTS for the premises located at": f"{self.tenant_1}, {self.tenant_2}"},
-                auto_regenerate=False
+                {"TENANTS for the premises located at": f"{self.tenant_1}, {self.tenant_2}"}
             )
 
         writer.update_page_form_field_values(
             writer.pages[0],
             {"CA": f"{self.address}, #{self.unit_num}, {self.city}",
              "undefined": self.zip
-             },
-            auto_regenerate=False
+             }
         )
+
 
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
 
@@ -272,9 +258,6 @@ class Form:
         reader = PdfReader(template_pdf)
         writer = PdfWriter()
 
-        # fields = reader.get_form_text_fields()
-        # print(fields)
-
         writer.append(reader)
 
         writer.update_page_form_field_values(
@@ -285,8 +268,7 @@ class Form:
             "for the premises located at": self.address,
             "CA": self.city,
             "Plumbing": self.start
-            },
-            auto_regenerate=False
+            }
         )
 
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
@@ -301,22 +283,17 @@ class Form:
         reader = PdfReader(template_pdf)
         writer = PdfWriter()
 
-        # fields = reader.get_form_text_fields()
-        # print(fields)
-
         writer.append(reader)
 
         if self.tenant_2 == '':
             writer.update_page_form_field_values(
                 writer.pages[0], 
-                {"THIS AGREEMENT made and entered into between": self.tenant_1},
-                auto_regenerate=False
+                {"THIS AGREEMENT made and entered into between": self.tenant_1}
             )
         else:
             writer.update_page_form_field_values(
                 writer.pages[0], 
-                {"THIS AGREEMENT made and entered into between": f"{self.tenant_1}, {self.tenant_2}"},
-                auto_regenerate=False
+                {"THIS AGREEMENT made and entered into between": f"{self.tenant_1}, {self.tenant_2}"}
             )
         writer.update_page_form_field_values(
             writer.pages[0],
@@ -324,8 +301,7 @@ class Form:
              "Rents the premises from OwnerAgent located at": self.address,
              "Street Address": self.city,
              "Unit if applicable": self.zip
-             },
-            auto_regenerate=False
+             }
         )
 
         os.makedirs(os.path.dirname(output_pdf), exist_ok=True)
